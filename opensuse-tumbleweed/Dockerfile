@@ -16,13 +16,4 @@ RUN zypper --non-interactive install libev-devel
 
 RUN zypper --non-interactive install git
 
-
-##### ################################################################
-#####
-#####  Group and User
-#####
-##### ################################################################
-RUN groupadd cl-users
-RUN useradd -d /home/cl-user -m -g cl-users cl-user
-
-USER cl-user
+RUN zypper --non-interactive install which
