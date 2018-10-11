@@ -1,7 +1,7 @@
 # Dockerfiles
 
 | Directory                     | Description | from                          |
-|-------------------------------+-------------+-------------------------------|
+|-------------------------------|-------------|-------------------------------|
 | opensuse-tumbleweed           |             | opensuse/tumbleweed           |
 | opensuse-tumbleweed-cl-user   |             | opensuse-tumbleweed           |
 | opensuse-tumbleweed-linuxbrew |             | opensuse-tumbleweed-cl-user   |
