@@ -9,9 +9,12 @@
 | ter                           | opensuse-tumbleweed-slime     |
 | opensuse-tumbleweed-slime     | opensuse-tumbleweed-roswell   |
 | opensuse-tumbleweed-roswell   | opensuse-tumbleweed-linuxbrew |
+| opensuse-tumbleweed-emacs     | opensuse-tumbleweed-cl-git    |
+| opensuse-tumbleweed-git       | opensuse-tumbleweed-cl-user   |
 | opensuse-tumbleweed-linuxbrew | opensuse-tumbleweed-cl-user   |
 | opensuse-tumbleweed-rbenv     | opensuse-tumbleweed-cl-user   |
 | opensuse-tumbleweed-nodebrew  | opensuse-tumbleweed-cl-user   |
+| opensuse-tumbleweed-nginx     | opensuse-tumbleweed           |
 | opensuse-tumbleweed-cl-user   | opensuse-tumbleweed           |
 | opensuse-tumbleweed           | opensuse/tumbleweed           |
 
@@ -19,20 +22,19 @@
 ## Images Stack
 
 ```
-
-+-----------+ +-------+ +----------+
-| slime     | |       | |          |
-+-----------+ |       | |          |
-+-----------+ |       | |          |
-| roswell   | |       | |          |
-+-----------+ |       | |          |
-+-----------+ |       | |          |
-| linuxbrew | | rbenv | | nodebrew |
-+-----------+ +-------+ +----------+
-+----------------------------------+
-| cl-user                          |
-+----------------------------------+
-+----------------------------------+
-| opensuse-tumbleweed              |
-+----------------------------------+
++-----------------------+ +-------+ +----------+ +-------+
+| slime                 | |       | |          | |       |
++-----------------------+ |       | |          | |       |
++---------+ +-----------+ |       | |          | |       |
+| emacs   | | roswell   | |       | |          | |       |
++---------+ +-----------+ |       | |          | |       |
++---------+ +-----------+ |       | |          | |       |
+| git     | | linuxbrew | | rbenv | | nodebrew | |       |
++---------+ +-----------+ +-------+ +----------+ |       |
++----------------------------------------------+ |       |
+| cl-user                                      | | nginx |
++----------------------------------------------+ +-------+
++--------------------------------------------------------+
+| opensuse-tumbleweed                                    |
++--------------------------------------------------------+
 ```
