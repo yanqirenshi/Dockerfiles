@@ -1,13 +1,15 @@
 ##### ################################################################
 #####
 #####    Base
+#####    ====
+#####      https://cloud.docker.com/repository/registry-1.docker.io/renshi/base
 #####
 #####    Build
-#####    =====
+#####    -----
 #####      docker build -t renshi/base -f Dockerfile.base .
 #####
 #####    Run
-#####    ===
+#####    ---
 #####      docker run -it renshi/base /bin/bash
 #####
 ##### ################################################################
