@@ -6,7 +6,7 @@
 #####
 #####    Build
 #####    -----
-#####      docker build -t renshi/base -f Dockerfile.base .
+#####      docker build -t renshi/base -f Dockerfile.Base .
 #####
 #####    Run
 #####    ---
