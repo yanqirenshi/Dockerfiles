@@ -1,4 +1,5 @@
 *~
+.ssh/
 ahan-whun-shugoi/Dockerfile
 nobit@/Dockerfile
 qupool/Dockerfile
