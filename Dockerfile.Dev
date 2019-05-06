@@ -13,7 +13,7 @@
 #####      docker run -it renshi/dev /bin/bash
 #####
 ##### ################################################################
-FROM renshi/dev
+FROM renshi/base
 
 MAINTAINER Renshi <yanqirenshi@gmail.com>
 
