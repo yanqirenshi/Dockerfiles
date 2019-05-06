@@ -1,0 +1,21 @@
+##### ################################################################
+#####
+#####    Base
+#####    ====
+#####      https://cloud.docker.com/repository/registry-1.docker.io/renshi/dev
+#####
+#####    Build
+#####    -----
+#####      docker build -t renshi/dev -f Dockerfile.Base .
+#####
+#####    Run
+#####    ---
+#####      docker run -it renshi/dev /bin/bash
+#####
+##### ################################################################
+FROM renshi/dev
+
+MAINTAINER Renshi <yanqirenshi@gmail.com>
+
+USER cl-user
+WORKDIR /home/cl-user
