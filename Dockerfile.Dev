@@ -19,3 +19,11 @@ MAINTAINER Renshi <yanqirenshi@gmail.com>
 
 USER cl-user
 WORKDIR /home/cl-user
+
+RUN mkdir -p  /home/cl-user/.ssh/
+RUN chmod 700 /home/cl-user/.ssh/
+
+COPY --chown=cl-user:cl-users .ssh/config /home/cl-user/.ssh/
+COPY --chown=cl-user:cl-users .ssh/id_rsa /home/cl-user/.ssh/
+
+RUN chmod 700 /home/cl-user/.ssh/*
