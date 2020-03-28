@@ -35,6 +35,7 @@ RUN zypper --non-interactive install which
 RUN zypper --non-interactive install emacs
 RUN zypper --non-interactive install git
 RUN zypper --non-interactive install nginx
+RUN zypper --non-interactive install wget
 
 
 ##### ################################################################
@@ -47,21 +48,27 @@ RUN useradd -d /home/cl-user -m -g cl-users cl-user
 
 
 ##### ################################################################
-#####   Node.js
+#####   Directories
 ##### ################################################################
 USER cl-user
 WORKDIR /home/cl-user
 
-RUN curl -L git.io/nodebrew | perl - setup
+RUN mkdir /home/cl-user/tmp
+
+##### ################################################################
+#####   Node.js
+##### ################################################################
+USER cl-user
+WORKDIR /home/cl-user/tmp
+
+RUN wget git.io/nodebrew
+RUN perl nodebrew setup
 
 RUN echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.profile
-
 ENV PATH /home/cl-user/.nodebrew/current/bin:$PATH
 
 RUN nodebrew install stable
 RUN nodebrew use stable
-
-RUN npm install -g npx
 
 
 ##### ################################################################
@@ -71,53 +78,6 @@ USER cl-user
 WORKDIR /home/cl-user
 
 RUN npm install -g riot@v3.13.2
-
-
-##### ################################################################
-#####   Roswell
-##### ################################################################
-USER cl-user
-WORKDIR /home/cl-user
-
-RUN mkdir /home/cl-user/temp
-WORKDIR /home/cl-user/temp
-
-RUN git clone -b release https://github.com/roswell/roswell.git
-
-WORKDIR /home/cl-user/temp/roswell
-RUN sh bootstrap
-RUN ./configure --prefix=/home/cl-user/temp/roswell/.local
-RUN make
-RUN make install
-RUN echo 'export PATH=$HOME/temp/roswell/.local/bin:$PATH' >> ~/.profile
-ENV PATH /home/cl-user/temp/roswell/.local/bin:$PATH
-RUN ros setup
-
-# make directoies
-RUN mkdir -p /home/cl-user/.asdf/ && \
-    mkdir -p /home/cl-user/prj/
-
-
-# clear init.lisp
-RUN echo ';;;;;'                                                      >  ~/.roswell/init.lisp && \
-    echo ';;;;; Added Dockerfile'                                     >> ~/.roswell/init.lisp && \
-    echo ';;;;;'                                                      >> ~/.roswell/init.lisp
-
-
-# Setting SBCL
-RUN echo ';;;;;'                                                      >> ~/.roswell/init.lisp && \
-    echo ';;;;; SBCL'                                                 >> ~/.roswell/init.lisp && \
-    echo ';;;;;'                                                      >> ~/.roswell/init.lisp && \
-    echo '(setf sb-impl::*default-external-format* :utf-8)'           >> ~/.roswell/init.lisp && \
-    echo '(setf sb-alien::*default-c-string-external-format* :utf-8)' >> ~/.roswell/init.lisp
-
-
-# Setting ASDF
-RUN echo ''                                                           >> ~/.roswell/init.lisp && \
-    echo ';;;;;'                                                      >> ~/.roswell/init.lisp && \
-    echo ';;;;; ASDF'                                                 >> ~/.roswell/init.lisp && \
-    echo ';;;;;'                                                      >> ~/.roswell/init.lisp && \
-    echo '(push #P"~/.asdf/" asdf:*central-registry*)'                >> ~/.roswell/init.lisp
 
 
 ##### ################################################################
@@ -131,16 +91,15 @@ WORKDIR /home/cl-user/.emacs.d/dist/
 ###
 ### git clone projects
 ###
-RUN git clone https://github.com/slime/slime.git
-RUN git clone https://github.com/deadtrickster/slime-repl-ansi-color.git
 RUN git clone https://github.com/yanqirenshi/emacs.git
+
 
 ###
 ### .emacs.d/init.lisp
 ###
 RUN touch /home/cl-user/.emacs.d/init.el
 RUN echo '(load "~/.emacs.d/dist/emacs/init-base.el")'  >> /home/cl-user/.emacs.d/init.el
-RUN echo '(load "~/.emacs.d/dist/emacs/init-lisp.el")'  >> /home/cl-user/.emacs.d/init.el
+
 
 ###
 ### パッケージのインストール
