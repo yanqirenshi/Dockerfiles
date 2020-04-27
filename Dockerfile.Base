@@ -143,6 +143,7 @@ RUN ln -s /home/cl-user/prj/libs/sephirothic/sephirothic.asd                    
 RUN ln -s /home/cl-user/prj/libs/world2world/world2world.asd                               /home/cl-user/.asdf/world2world.asd
 RUN ln -s /home/cl-user/prj/libs/ghost/graph/ghost.graph.asd                               /home/cl-user/.asdf/ghost.graph.asd
 RUN ln -s /home/cl-user/prj/libs/ghost/core/ghost.asd                                      /home/cl-user/.asdf/ghost.asd
+RUN ln -s /home/cl-user/prj/libs/ghost/graph/ghost.api.asd                                 /home/cl-user/.asdf/ghost.api.asd
 RUN ln -s /home/cl-user/prj/libs/takajin84key/takajin84key.asd                             /home/cl-user/.asdf/takajin84key.asd
 RUN ln -s /home/cl-user/prj/libs/s-serialization/s-serialization.asd                       /home/cl-user/.asdf/s-serialization.asd
 RUN ln -s /home/cl-user/prj/libs/plist-printer/plist-printer.asd                           /home/cl-user/.asdf/plist-printer.asd
