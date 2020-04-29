@@ -35,7 +35,7 @@ RUN zypper --non-interactive install which
 RUN zypper --non-interactive install emacs
 RUN zypper --non-interactive install git
 RUN zypper --non-interactive install nginx
-
+RUN zypper --non-interactive install postgresql
 
 ##### ################################################################
 #####   Group / User
