@@ -87,7 +87,8 @@ RUN sh bootstrap
 RUN ./configure --prefix=/home/cl-user/temp/roswell/.local
 RUN make
 RUN make install
-RUN echo 'export PATH=$HOME/temp/roswell/.local/bin:$PATH' >> ~/.profile
+# new: RUN echo 'export PATH=$HOME/temp/roswell/.local/bin:$PATH' >> ~/.profile
+# old: RUN echo 'PATH=$HOME/temp/roswell/.local/bin:$PATH' >> ~/.profile
 ENV PATH /home/cl-user/temp/roswell/.local/bin:$PATH
 RUN ros setup
 
