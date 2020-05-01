@@ -18,6 +18,69 @@ FROM renshi/opensuse
 MAINTAINER Renshi <yanqirenshi@gmail.com>
 
 ##### ################################################################
+#####  Install of zypper
+##### ################################################################
+USER root
+
+RUN zypper --non-interactive install libffi-devel libyaml-devel libopenssl-devel readline-devel bzip2
+RUN zypper --non-interactive install curl libcurl-devel
+
+
+##### ################################################################
+#####   Roswell
+##### ################################################################
+USER appl-user
+WORKDIR /home/appl-user
+
+RUN mkdir /home/appl-user/temp
+WORKDIR /home/appl-user/temp
+
+RUN git clone -b release https://github.com/roswell/roswell.git
+
+WORKDIR /home/appl-user/temp/roswell
+RUN sh bootstrap
+
+RUN echo '------------------------------------------------------'
+RUN pwd
+RUN echo '------------------------------------------------------'
+
+RUN sh -c bash cd /home/appl-user/temp/roswell;./configure --prefix=/home/appl-user/temp/roswell/.local
+RUN make
+RUN make install
+
+RUN echo 'export PATH=$HOME/temp/roswell/.local/bin:$PATH' >> ~/.profile
+ENV PATH /home/appl-user/temp/roswell/.local/bin:$PATH
+
+RUN ros setup
+
+# make directoies
+RUN mkdir -p /home/appl-user/.asdf/ && \
+    mkdir -p /home/appl-user/prj/
+
+
+# clear init.lisp
+RUN echo ';;;;;'                                                      >  ~/.roswell/init.lisp && \
+    echo ';;;;; Added Dockerfile'                                     >> ~/.roswell/init.lisp && \
+    echo ';;;;;'                                                      >> ~/.roswell/init.lisp
+
+
+# Setting SBCL
+RUN echo ';;;;;'                                                      >> ~/.roswell/init.lisp && \
+    echo ';;;;; SBCL'                                                 >> ~/.roswell/init.lisp && \
+    echo ';;;;;'                                                      >> ~/.roswell/init.lisp && \
+    echo '(setf sb-impl::*default-external-format* :utf-8)'           >> ~/.roswell/init.lisp && \
+    echo '(setf sb-alien::*default-c-string-external-format* :utf-8)' >> ~/.roswell/init.lisp
+
+
+# Setting ASDF
+RUN echo ''                                                           >> ~/.roswell/init.lisp && \
+    echo ';;;;;'                                                      >> ~/.roswell/init.lisp && \
+    echo ';;;;; ASDF'                                                 >> ~/.roswell/init.lisp && \
+    echo ';;;;;'                                                      >> ~/.roswell/init.lisp && \
+    echo '(push #P"~/.asdf/" asdf:*central-registry*)'                >> ~/.roswell/init.lisp
+
+
+##### ################################################################
 #####   Emacs
 ##### ################################################################
 USER appl-user
