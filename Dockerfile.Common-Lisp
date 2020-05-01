@@ -1,0 +1,35 @@
+##### ################################################################
+#####
+#####    Base
+#####    ====
+#####      https://cloud.docker.com/repository/registry-1.docker.io/renshi/common-lisp
+#####
+#####    Build
+#####    -----
+#####      docker build -t renshi/common-lisp -f Dockerfile.Common-Lisp .
+#####
+#####    Run
+#####    ---
+#####      docker run -it renshi/common-lisp /bin/bash
+#####
+##### ################################################################
+FROM renshi/opensuse
+
+MAINTAINER Renshi <yanqirenshi@gmail.com>
+
+##### ################################################################
+#####   Emacs
+##### ################################################################
+USER appl-user
+WORKDIR /home/appl-user/.emacs.d/dist/
+
+###
+### git clone projects
+###
+RUN git clone https://github.com/slime/slime.git
+RUN git clone https://github.com/deadtrickster/slime-repl-ansi-color.git
+
+###
+### .emacs.d/init.lisp
+###
+RUN echo '(load "~/.emacs.d/dist/emacs/init-lisp.el")'  >> /home/appl-user/.emacs.d/init.el
