@@ -85,13 +85,7 @@ RUN git clone -b release https://github.com/roswell/roswell.git
 WORKDIR /home/cl-user/temp/roswell
 RUN sh bootstrap
 
-RUN echo '------------------------------------------------------'
-RUN pwd
-RUN echo '------------------------------------------------------'
-
-# RUN /home/cl-user/temp/roswell/configure --prefix=/home/cl-user/temp/roswell/.local
-# RUN ./configure --prefix=/home/cl-user/temp/roswell/.local
-RUN sh -c bash cd /home/appl-user/temp/roswell;./configure --prefix=/home/appl-user/temp/roswell/.local
+RUN ./configure --prefix=/home/cl-user/temp/roswell/.local
 RUN make
 RUN make install
 

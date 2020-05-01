@@ -26,6 +26,7 @@ RUN zypper --non-interactive refresh
 RUN zypper --non-interactive update
 
 RUN zypper --non-interactive install -t pattern devel_basis
+RUN zypper --non-interactive install curl wget
 RUN zypper --non-interactive install emacs
 RUN zypper --non-interactive install git
 RUN zypper --non-interactive install nginx
