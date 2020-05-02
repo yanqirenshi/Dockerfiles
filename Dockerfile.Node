@@ -1,0 +1,34 @@
+##### ################################################################
+#####
+#####    Base
+#####    ====
+#####      https://cloud.docker.com/repository/registry-1.docker.io/renshi/node
+#####
+#####    Build
+#####    -----
+#####      docker build -t renshi/node -f Dockerfile.Node .
+#####
+#####    Run
+#####    ---
+#####      docker run -it renshi/node /bin/bash
+#####
+##### ################################################################
+FROM renshi/opensuse
+
+MAINTAINER Renshi <yanqirenshi@gmail.com>
+
+
+##### ################################################################
+#####   Node.js
+##### ################################################################
+USER appl-user
+WORKDIR /home/appl-user
+
+RUN curl -L git.io/nodebrew | perl - setup
+
+RUN echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.profile
+
+ENV PATH /home/appl-user/.nodebrew/current/bin:$PATH
+
+RUN nodebrew install stable
+RUN nodebrew use stable

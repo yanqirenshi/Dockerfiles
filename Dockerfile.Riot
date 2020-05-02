@@ -1,0 +1,18 @@
+##### ################################################################
+#####
+#####    Base
+#####    ====
+#####      https://cloud.docker.com/repository/registry-1.docker.io/renshi/riot
+#####
+#####    Build
+#####    -----
+#####      docker build -t renshi/riot -f Dockerfile.Riot .
+#####
+#####    Run
+#####    ---
+#####      docker run -it renshi/riot /bin/bash
+#####
+##### ################################################################
+FROM renshi/node
+
+MAINTAINER Renshi <yanqirenshi@gmail.com>

@@ -1,0 +1,18 @@
+##### ################################################################
+#####
+#####    Base
+#####    ====
+#####      https://cloud.docker.com/repository/registry-1.docker.io/renshi/react
+#####
+#####    Build
+#####    -----
+#####      docker build -t renshi/react -f Dockerfile.React .
+#####
+#####    Run
+#####    ---
+#####      docker run -it renshi/react /bin/bash
+#####
+##### ################################################################
+FROM renshi/node
+
+MAINTAINER Renshi <yanqirenshi@gmail.com>

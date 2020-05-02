@@ -1,0 +1,97 @@
+##### ################################################################
+#####
+#####    Base
+#####    ====
+#####      https://cloud.docker.com/repository/registry-1.docker.io/renshi/common-lisp
+#####
+#####    Build
+#####    -----
+#####      docker build -t renshi/common-lisp -f Dockerfile.Common-Lisp .
+#####
+#####    Run
+#####    ---
+#####      docker run -it renshi/common-lisp /bin/bash
+#####
+##### ################################################################
+FROM renshi/opensuse
+
+MAINTAINER Renshi <yanqirenshi@gmail.com>
+
+
+##### ################################################################
+#####  Install of zypper
+##### ################################################################
+USER root
+
+RUN zypper --non-interactive install libffi-devel libyaml-devel libopenssl-devel readline-devel bzip2
+RUN zypper --non-interactive install libcurl-devel
+RUN zypper --non-interactive install sbcl
+
+
+##### ################################################################
+#####   SBCL
+##### ################################################################
+USER appl-user
+WORKDIR /home/appl-user
+
+# make directoies
+RUN mkdir -p /home/appl-user/.asdf/ && \
+    mkdir -p /home/appl-user/prj/
+
+
+RUN echo ';;;;;'                                                      >  ~/.sbclrc && \
+    echo ';;;;; SBCL'                                                 >> ~/.sbclrc && \
+    echo ';;;;;'                                                      >> ~/.sbclrc && \
+    echo '(setf sb-impl::*default-external-format* :utf-8)'           >> ~/.sbclrc && \
+    echo '(setf sb-alien::*default-c-string-external-format* :utf-8)' >> ~/.sbclrc && \
+    echo ''                                                           >> ~/.sbclrc && \
+    echo ';;;;;'                                                      >> ~/.sbclrc && \
+    echo ';;;;; ASDF'                                                 >> ~/.sbclrc && \
+    echo ';;;;;'                                                      >> ~/.sbclrc && \
+    echo '(require "asdf")'                                           >> ~/.sbclrc && \
+    echo '(push #P"~/.asdf/" asdf:*central-registry*)'                >> ~/.sbclrc
+
+
+##### ################################################################
+#####   Quicklisp
+##### ################################################################
+USER appl-user
+RUN mkdir -p /home/appl-user/tmp
+WORKDIR /home/appl-user/tmp
+
+RUN curl -O https://beta.quicklisp.org/quicklisp.lisp
+# RUN curl -O https://beta.quicklisp.org/quicklisp.lisp.asc
+# RUN gpg --verify quicklisp.lisp.asc quicklisp.lisp
+
+RUN echo '(load "/home/appl-user/tmp/quicklisp.lisp")' >  /home/appl-user/tmp/init.lisp && \
+    echo '(quicklisp-quickstart:install)'              >> /home/appl-user/tmp/init.lisp
+
+RUN sbcl --load /home/appl-user/tmp/init.lisp
+
+RUN echo ''                >> /home/appl-user/.sbclrc && \
+    echo ';;;;;'           >> /home/appl-user/.sbclrc && \
+    echo ';;;;; Quicklisp' >> /home/appl-user/.sbclrc && \
+    echo ';;;;;'           >> /home/appl-user/.sbclrc && \
+    echo '#-quicklisp'     >> /home/appl-user/.sbclrc && \
+    echo '(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"'     >> /home/appl-user/.sbclrc && \
+    echo '                                       (user-homedir-pathname))))' >> /home/appl-user/.sbclrc && \
+    echo '  (when (probe-file quicklisp-init)'                               >> /home/appl-user/.sbclrc && \
+    echo '    (load quicklisp-init)))'                                       >> /home/appl-user/.sbclrc
+
+
+##### ################################################################
+#####   Emacs
+##### ################################################################
+USER appl-user
+WORKDIR /home/appl-user/.emacs.d/dist/
+
+###
+### git clone projects
+###
+RUN git clone https://github.com/slime/slime.git
+RUN git clone https://github.com/deadtrickster/slime-repl-ansi-color.git
+
+###
+### .emacs.d/init.lisp
+###
+RUN echo '(load "~/.emacs.d/dist/emacs/init-lisp.sbcl.el")'  >> /home/appl-user/.emacs.d/init.el
