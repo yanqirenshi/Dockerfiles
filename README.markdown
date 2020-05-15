@@ -1,40 +1,31 @@
 # Dockerfiles
 
-| Directory                     | from                          |
-|-------------------------------|-------------------------------|
-| ahan-whun-shugoi              | opensuse-tumbleweed-slime     |
-| jira                          | opensuse-tumbleweed-slime     |
-| nobit@                        | opensuse-tumbleweed-slime     |
-| qupool                        | opensuse-tumbleweed-slime     |
-| ter                           | opensuse-tumbleweed-slime     |
-| opensuse-tumbleweed-slime     | opensuse-tumbleweed-roswell   |
-| opensuse-tumbleweed-roswell   | opensuse-tumbleweed-linuxbrew |
-| opensuse-tumbleweed-emacs     | opensuse-tumbleweed-cl-git    |
-| opensuse-tumbleweed-git       | opensuse-tumbleweed-cl-user   |
-| opensuse-tumbleweed-linuxbrew | opensuse-tumbleweed-cl-user   |
-| opensuse-tumbleweed-rbenv     | opensuse-tumbleweed-cl-user   |
-| opensuse-tumbleweed-nodebrew  | opensuse-tumbleweed-cl-user   |
-| opensuse-tumbleweed-nginx     | opensuse-tumbleweed           |
-| opensuse-tumbleweed-cl-user   | opensuse-tumbleweed           |
-| opensuse-tumbleweed           | opensuse/tumbleweed           |
-
-
-## Images Stack
+## Structures
 
 ```
-+-----------------------+ +-------+ +----------+ +-------+
-| slime                 | |       | |          | |       |
-+-----------------------+ |       | |          | |       |
-+---------+ +-----------+ |       | |          | |       |
-| emacs   | | roswell   | |       | |          | |       |
-+---------+ +-----------+ |       | |          | |       |
-+---------+ +-----------+ |       | |          | |       |
-| git     | | linuxbrew | | rbenv | | nodebrew | |       |
-+---------+ +-----------+ +-------+ +----------+ |       |
-+----------------------------------------------+ |       |
-| cl-user                                      | | nginx |
-+----------------------------------------------+ +-------+
-+--------------------------------------------------------+
-| opensuse-tumbleweed                                    |
-+--------------------------------------------------------+
+  opensuse/tumbleweed
+         |
+         +----------------------------------------------+-----------------+
+         |                                              |                 |
+         V                                              V                 V
+  renshi/opensuse                                  renshi/base         renshi/docs
+  (Dockerfile.OpenSUSE)                           (Dockerfile.Base)   (Dockerfile.Docs)
+         |                                              |
+         |                                              |
+         +--------------------------+                   V
+         |                          |              renshi/dev
+         V                          V             (Dockerfile.Dev)
+  renshi/common-lisp           renshi/node
+  (Dockerfile.Common-Lisp)    (Dockerfile.Node)
+         |                          |
+         |                          +---------------------+
+         |                          |                     |
+         |                          V                     V
+         |                     renshi/react           renshi/riot
+         |                    (Dockerfile.React)     (Dockerfile.Riot)
+         |
+         |
+         V
+  renshi/strobolights
+  (Dockerfile.Strobolights)
 ```
